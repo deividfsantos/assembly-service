@@ -1,7 +1,11 @@
-package com.deividsantos.assembly.rest.api.v1.input;
+package com.deividsantos.assembly.api.rest.v1.input;
+
+import io.swagger.annotations.ApiModelProperty;
 
 public class VotingInput {
+    @ApiModelProperty(value = "Option of vote.")
     private String vote;
+    @ApiModelProperty(value = "Associated informations.")
     private AssociatedInput associated;
 
     public String getVote() {

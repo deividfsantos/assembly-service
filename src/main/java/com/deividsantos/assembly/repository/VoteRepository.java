@@ -7,4 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface VoteRepository extends CrudRepository<VoteEntity, Integer> {
 
+    Integer countByAgendaId(Integer agendaId);
+
+    Integer countByAgendaIdAndVote(Integer agendaId, String vote);
 }

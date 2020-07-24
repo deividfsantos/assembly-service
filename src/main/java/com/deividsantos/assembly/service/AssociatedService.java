@@ -1,22 +1,23 @@
 package com.deividsantos.assembly.service;
 
 import com.deividsantos.assembly.client.UserInfoClient;
-import com.deividsantos.assembly.repository.entity.AgendaEntity;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.deividsantos.assembly.exception.UnableToVoteException;
+import com.deividsantos.assembly.type.VotePermission;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AssociatedService {
 
     private final UserInfoClient userInfoClient;
-    private final ObjectMapper objectMapper;
 
-    public AssociatedService(UserInfoClient userInfoClient, ObjectMapper objectMapper) {
+    public AssociatedService(UserInfoClient userInfoClient) {
         this.userInfoClient = userInfoClient;
-        this.objectMapper = objectMapper;
     }
 
     public void validateAssociatedAbleToVote(String cpf) {
-        userInfoClient.validate(cpf);
+        final VotePermission status = userInfoClient.validate(cpf).getStatus();
+        if (status.equals(VotePermission.UNABLE_TO_VOTE)) {
+            throw new UnableToVoteException();
+        }
     }
 }

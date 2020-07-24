@@ -1,7 +1,11 @@
-package com.deividsantos.assembly.model;
+package com.deividsantos.assembly.api.rest.v1.input;
 
-public class Associated {
+import io.swagger.annotations.ApiModelProperty;
+
+public class AssociatedInput {
+    @ApiModelProperty(value = "CPF of the associated.")
     private String cpf;
+    @ApiModelProperty(value = "Id of the associated.")
     private Integer id;
 
     public String getCpf() {

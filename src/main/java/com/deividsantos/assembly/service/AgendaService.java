@@ -1,7 +1,6 @@
 package com.deividsantos.assembly.service;
 
 import com.deividsantos.assembly.model.Agenda;
-import com.deividsantos.assembly.model.Associated;
 import com.deividsantos.assembly.repository.AgendaRepository;
 import com.deividsantos.assembly.repository.entity.AgendaEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,9 +21,5 @@ public class AgendaService {
         final AgendaEntity agendaEntity = objectMapper.convertValue(agenda, AgendaEntity.class);
         return agendaRepository.save(agendaEntity)
                 .getId();
-    }
-
-    public void openSession(Integer id, String durationTime) {
-        //open session
     }
 }

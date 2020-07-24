@@ -1,6 +1,9 @@
-package com.deividsantos.assembly.rest.api.v1.output;
+package com.deividsantos.assembly.api.rest.v1.output;
+
+import io.swagger.annotations.ApiModelProperty;
 
 public class VoteOutput {
+    @ApiModelProperty(value = "Vote id.")
     private Integer id;
 
     public VoteOutput() {

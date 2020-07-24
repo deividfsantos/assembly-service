@@ -5,15 +5,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
+@Entity(name = "vote")
 public class VoteEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer agendaId;
     private String vote;
-    private String associatedId;
+    private Integer associatedId;
     private String associatedCpf;
 
     public Integer getId() {
@@ -40,11 +40,11 @@ public class VoteEntity {
         this.vote = vote;
     }
 
-    public String getAssociatedId() {
+    public Integer getAssociatedId() {
         return associatedId;
     }
 
-    public void setAssociatedId(String associatedId) {
+    public void setAssociatedId(Integer associatedId) {
         this.associatedId = associatedId;
     }
 
@@ -83,7 +83,7 @@ public class VoteEntity {
             return this;
         }
 
-        public Builder withAssociatedId(String associatedId) {
+        public Builder withAssociatedId(Integer associatedId) {
             voteEntity.setAssociatedId(associatedId);
             return this;
         }
