@@ -14,18 +14,20 @@ public class VoteService {
 
     private final VoteRepository voteRepository;
     private final SessionService sessionService;
+    private final AssociatedService associatedService;
 
-    public VoteService(VoteRepository voteRepository, SessionService sessionService) {
+    public VoteService(VoteRepository voteRepository, SessionService sessionService, AssociatedService associatedService) {
         this.voteRepository = voteRepository;
         this.sessionService = sessionService;
+        this.associatedService = associatedService;
     }
 
     public Integer add(Integer agendaId, Associated associated, String vote) {
+        associatedService.validateAssociatedAbleToVote(associated.getCpf());
         sessionService.validateSessionOpened(agendaId);
         final VoteEntity voteEntity = VoteMapper.map(agendaId, associated, vote);
         try {
-            return voteRepository.save(voteEntity)
-                    .getId();
+            return voteRepository.save(voteEntity).getId();
         } catch (DataIntegrityViolationException ex) {
             throw new AlreadyVotedException();
         }

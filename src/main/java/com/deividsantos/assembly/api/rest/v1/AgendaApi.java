@@ -9,7 +9,6 @@ import com.deividsantos.assembly.model.Agenda;
 import com.deividsantos.assembly.model.Associated;
 import com.deividsantos.assembly.model.VotesCouting;
 import com.deividsantos.assembly.service.AgendaService;
-import com.deividsantos.assembly.service.AssociatedService;
 import com.deividsantos.assembly.service.SessionService;
 import com.deividsantos.assembly.service.VoteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/v1/agenda")
 public class AgendaApi {
@@ -32,20 +33,18 @@ public class AgendaApi {
     private final AgendaService agendaService;
     private final SessionService sessionService;
     private final VoteService voteService;
-    private final AssociatedService associatedService;
     private final ObjectMapper objectMapper;
 
-    public AgendaApi(AgendaService agendaService, SessionService sessionService, VoteService voteService, AssociatedService associatedService, ObjectMapper objectMapper) {
+    public AgendaApi(AgendaService agendaService, SessionService sessionService, VoteService voteService, ObjectMapper objectMapper) {
         this.agendaService = agendaService;
         this.sessionService = sessionService;
         this.voteService = voteService;
-        this.associatedService = associatedService;
         this.objectMapper = objectMapper;
     }
 
     @PostMapping
     @ApiOperation(value = "Creates a new agenda for voting.")
-    public ResponseEntity<AgendaOutput> createAgenda(@RequestBody AgendaInput agendaInput) {
+    public ResponseEntity<AgendaOutput> createAgenda(@RequestBody @Valid AgendaInput agendaInput) {
         final Agenda agenda = objectMapper.convertValue(agendaInput, Agenda.class);
         Integer id = agendaService.create(agenda);
         return ResponseEntity.ok(new AgendaOutput(id));
@@ -63,9 +62,8 @@ public class AgendaApi {
     @PatchMapping("/{id}/vote")
     @ApiOperation(value = "Vote on the specified agenda.")
     public ResponseEntity<VoteOutput> voteOnAgenda(@PathVariable Integer id,
-                                                   @RequestBody VotingInput votingInput) {
+                                                   @RequestBody @Valid VotingInput votingInput) {
         final Associated associated = objectMapper.convertValue(votingInput.getAssociated(), Associated.class);
-        associatedService.validateAssociatedAbleToVote(associated.getCpf());
         final Integer voteId = voteService.add(id, associated, votingInput.getVote());
         return ResponseEntity.ok(new VoteOutput(voteId));
     }
