@@ -21,6 +21,7 @@ public class AssociatedService {
 
     public void validateAssociatedAbleToVote(String cpf) {
         if (!DocumentUtil.isValidCpf(cpf)) {
+            logger.error("CPF {} is incorrect.", cpf);
             throw new IncorrectCpfFormatException();
         }
 
