@@ -19,5 +19,6 @@ CREATE TABLE IF NOT EXISTS `session` (
   id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
   agenda_id int NOT NULL,
   due_date datetime NOT NULL,
+  status varchar(10) NOT NULL,
   FOREIGN KEY (agenda_id) REFERENCES agenda(id)
 );

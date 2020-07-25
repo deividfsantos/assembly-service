@@ -17,3 +17,12 @@ services:
       - 8080:8080
     depends_on:
       - assembly-db
+      - assembly-rabbitmq
+  assembly-rabbitmq:
+    image: rabbitmq:3-management
+    environment:
+      RABBITMQ_DEFAULT_USER: rabbit
+      RABBITMQ_DEFAULT_PASS: rabbit
+    ports:
+      - "5672:5672"
+      - "15672:15672"
