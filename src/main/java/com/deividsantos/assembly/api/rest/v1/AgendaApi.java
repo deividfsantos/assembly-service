@@ -51,7 +51,7 @@ public class AgendaApi {
         logger.info("Creating new agenda with description \"{}\".", agendaInput.getDescription());
         final Agenda agenda = objectMapper.convertValue(agendaInput, Agenda.class);
         Integer id = agendaService.create(agenda);
-        logger.info("New agenda created with description \"{}\" and id {}", agendaInput.getDescription(), id);
+        logger.info("New agenda created with description \"{}\" and id {}.", agendaInput.getDescription(), id);
         return ResponseEntity.ok(new AgendaOutput(id));
     }
 
