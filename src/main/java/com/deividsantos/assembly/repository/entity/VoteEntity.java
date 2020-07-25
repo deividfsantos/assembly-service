@@ -1,5 +1,7 @@
 package com.deividsantos.assembly.repository.entity;
 
+import com.deividsantos.assembly.type.VoteOption;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,7 +14,7 @@ public class VoteEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer agendaId;
-    private String vote;
+    private VoteOption vote;
     private Integer associatedId;
     private String associatedCpf;
 
@@ -32,11 +34,11 @@ public class VoteEntity {
         this.agendaId = agendaId;
     }
 
-    public String getVote() {
+    public VoteOption getVote() {
         return vote;
     }
 
-    public void setVote(String vote) {
+    public void setVote(VoteOption vote) {
         this.vote = vote;
     }
 
@@ -78,7 +80,7 @@ public class VoteEntity {
             return this;
         }
 
-        public Builder withVote(String vote) {
+        public Builder withVote(VoteOption vote) {
             voteEntity.setVote(vote);
             return this;
         }

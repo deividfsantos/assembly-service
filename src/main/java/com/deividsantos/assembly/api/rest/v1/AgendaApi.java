@@ -14,6 +14,8 @@ import com.deividsantos.assembly.service.VoteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -29,6 +31,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/v1/agenda")
 public class AgendaApi {
+    private static final Logger logger = LoggerFactory.getLogger(AgendaApi.class);
 
     private final AgendaService agendaService;
     private final SessionService sessionService;
@@ -45,8 +48,10 @@ public class AgendaApi {
     @PostMapping
     @ApiOperation(value = "Creates a new agenda for voting.")
     public ResponseEntity<AgendaOutput> createAgenda(@RequestBody @Valid AgendaInput agendaInput) {
+        logger.info("Creating new agenda with description \"{}\".", agendaInput.getDescription());
         final Agenda agenda = objectMapper.convertValue(agendaInput, Agenda.class);
         Integer id = agendaService.create(agenda);
+        logger.info("New agenda created with description \"{}\" and id {}", agendaInput.getDescription(), id);
         return ResponseEntity.ok(new AgendaOutput(id));
     }
 
@@ -55,7 +60,9 @@ public class AgendaApi {
     public ResponseEntity<Void> openSession(@PathVariable Integer id,
                                             @ApiParam(value = "Duration of agenda's session in minutes", defaultValue = "1")
                                             @RequestParam(required = false, defaultValue = "1") Integer durationTime) {
+        logger.info("Opening session with from agenda with id {}.", id);
         sessionService.open(id, durationTime);
+        logger.info("Agenda with id {} opened.", id);
         return ResponseEntity.noContent().build();
     }
 
@@ -63,16 +70,20 @@ public class AgendaApi {
     @ApiOperation(value = "Vote on the specified agenda.")
     public ResponseEntity<VoteOutput> voteOnAgenda(@PathVariable Integer id,
                                                    @RequestBody @Valid VotingInput votingInput) {
+        logger.info("Receiving vote on agenda with id {} from associated {}.", id, votingInput.getAssociated().getId());
         final Associated associated = objectMapper.convertValue(votingInput.getAssociated(), Associated.class);
         final Integer voteId = voteService.add(id, associated, votingInput.getVote());
+        logger.info("Vote on agenda with id {} from associated {} received.", id, votingInput.getAssociated().getId());
         return ResponseEntity.ok(new VoteOutput(voteId));
     }
 
     @GetMapping("/{id}/results")
     @ApiOperation(value = "Get the final results of the agendas.")
     public ResponseEntity<ResultsOutput> voteOnAgenda(@PathVariable Integer id) {
+        logger.info("Couting votes on agenda with id {}.", id);
         final VotesCouting votesCouting = voteService.countVotes(id);
         final ResultsOutput resultsOutput = objectMapper.convertValue(votesCouting, ResultsOutput.class);
+        logger.info("Counted votes on agenda with id {}.", id);
         return ResponseEntity.ok(resultsOutput);
     }
 }

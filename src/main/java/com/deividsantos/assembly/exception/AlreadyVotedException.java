@@ -3,7 +3,7 @@ package com.deividsantos.assembly.exception;
 import org.springframework.http.HttpStatus;
 
 public class AlreadyVotedException extends HttpException {
-    private static final String MESSAGE = "You've already voted on this agenda.";
+    private static final String MESSAGE = "This associated already voted on this agenda.";
 
     public AlreadyVotedException() {
         super(MESSAGE);
