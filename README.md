@@ -43,6 +43,10 @@ or direct by your IDE
 ```
 ./gradlew clean test 
 ```
+#### Running mutation tests
+```
+./gradlew pitest 
+```
 
 ### Decisions
 The choice of technologies was made because they are already stable and tested in the market, thus obtaining more security, they are also technologies that have a large community, which can be useful in solving possible problems.
