@@ -3,7 +3,7 @@ package com.deividsantos.assembly.exception;
 import org.springframework.http.HttpStatus;
 
 public class UnableToVoteException extends HttpException {
-    private static final String MESSAGE = "This CPF is unable to vote.";
+    private static final String MESSAGE = "error.UnableToVote";
 
     public UnableToVoteException() {
         super(MESSAGE);
@@ -16,6 +16,6 @@ public class UnableToVoteException extends HttpException {
 
     @Override
     public Error getError() {
-        return new Error(MESSAGE, "ASB-003");
+        return new Error(MESSAGE, "error.UnableToVote.code");
     }
 }

@@ -3,7 +3,7 @@ package com.deividsantos.assembly.exception;
 import org.springframework.http.HttpStatus;
 
 public class SessionNotOpenException extends HttpException {
-    private static final String MESSAGE = "It is not possible to vote, no session open for this agenda.";
+    private static final String MESSAGE = "error.SessionNotOpen";
 
     public SessionNotOpenException() {
         super(MESSAGE);
@@ -16,6 +16,6 @@ public class SessionNotOpenException extends HttpException {
 
     @Override
     public Error getError() {
-        return new Error(MESSAGE, "ASB-002");
+        return new Error(MESSAGE, "error.SessionNotOpen.code");
     }
 }

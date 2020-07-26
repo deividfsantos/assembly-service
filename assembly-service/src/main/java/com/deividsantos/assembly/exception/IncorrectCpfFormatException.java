@@ -3,7 +3,7 @@ package com.deividsantos.assembly.exception;
 import org.springframework.http.HttpStatus;
 
 public class IncorrectCpfFormatException extends HttpException {
-    private static final String MESSAGE = "Incorrect CPF format;";
+    private static final String MESSAGE = "error.incorrectCpf";
 
     public IncorrectCpfFormatException() {
         super(MESSAGE);
@@ -16,6 +16,6 @@ public class IncorrectCpfFormatException extends HttpException {
 
     @Override
     public Error getError() {
-        return new Error(MESSAGE, "ASB-005");
+        return new Error(MESSAGE, "error.incorrectCpf.code");
     }
 }

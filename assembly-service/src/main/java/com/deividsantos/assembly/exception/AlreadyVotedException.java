@@ -3,7 +3,7 @@ package com.deividsantos.assembly.exception;
 import org.springframework.http.HttpStatus;
 
 public class AlreadyVotedException extends HttpException {
-    private static final String MESSAGE = "This associated already voted on this agenda.";
+    private static final String MESSAGE = "error.alreadyVoted";
 
     public AlreadyVotedException() {
         super(MESSAGE);
@@ -16,6 +16,6 @@ public class AlreadyVotedException extends HttpException {
 
     @Override
     public Error getError() {
-        return new Error(MESSAGE, "ASB-001");
+        return new Error(MESSAGE, "error.alreadyVoted.code");
     }
 }

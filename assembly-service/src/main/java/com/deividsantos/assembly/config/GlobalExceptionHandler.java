@@ -1,8 +1,8 @@
 package com.deividsantos.assembly.config;
 
 import com.deividsantos.assembly.exception.Error;
+import com.deividsantos.assembly.exception.ErrorTranslator;
 import com.deividsantos.assembly.exception.HttpException;
-import com.deividsantos.assembly.service.VoteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -19,13 +19,20 @@ import java.util.Optional;
 public class GlobalExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
+    private final ErrorTranslator errorTranslator;
+
+    public GlobalExceptionHandler(ErrorTranslator errorTranslator) {
+        this.errorTranslator = errorTranslator;
+    }
+
     @ExceptionHandler
     public ResponseEntity<Error> handleException(Throwable throwable) {
         if (throwable instanceof HttpException) {
             HttpException e = (HttpException) throwable;
+            final Error translate = errorTranslator.translate(e.getError());
             return ResponseEntity
                     .status(e.getStatus())
-                    .body(e.getError());
+                    .body(translate);
         }
         return getInternalErrorResponse(throwable);
     }

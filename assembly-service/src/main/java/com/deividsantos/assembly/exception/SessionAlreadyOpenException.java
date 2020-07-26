@@ -3,7 +3,7 @@ package com.deividsantos.assembly.exception;
 import org.springframework.http.HttpStatus;
 
 public class SessionAlreadyOpenException extends HttpException {
-    private static final String MESSAGE = "There is already an open session for this agenda.";
+    private static final String MESSAGE = "error.SessionAlreadyOpen";
 
     public SessionAlreadyOpenException() {
         super(MESSAGE);
@@ -16,6 +16,6 @@ public class SessionAlreadyOpenException extends HttpException {
 
     @Override
     public Error getError() {
-        return new Error(MESSAGE, "ASB-007");
+        return new Error(MESSAGE, "error.SessionAlreadyOpen.code");
     }
 }

@@ -3,7 +3,7 @@ package com.deividsantos.assembly.exception;
 import org.springframework.http.HttpStatus;
 
 public class AgendaNotFoundException extends HttpException {
-    private static final String MESSAGE = "Agenda not found.";
+    private static final String MESSAGE = "error.agendaNotFound";
 
     public AgendaNotFoundException() {
         super(MESSAGE);
@@ -16,6 +16,6 @@ public class AgendaNotFoundException extends HttpException {
 
     @Override
     public Error getError() {
-        return new Error(MESSAGE, "ASB-006");
+        return new Error(MESSAGE, "error.agendaNotFound.code");
     }
 }
