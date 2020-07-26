@@ -80,7 +80,7 @@ public class SessionEntity {
             return this;
         }
 
-        public Builder withSessionStatus(SessionStatus status) {
+        public Builder withStatus(SessionStatus status) {
             sessionEntity.setStatus(status);
             return this;
         }

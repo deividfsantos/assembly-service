@@ -10,7 +10,7 @@ public class SessionEntityMapper {
         return SessionEntity.aSessionEntity()
                 .withAgendaId(agendaId)
                 .withDueDate(LocalDateTime.now().plusMinutes(durationTimeMinutes))
-                .withSessionStatus(SessionStatus.OPEN)
+                .withStatus(SessionStatus.OPEN)
                 .build();
     }
 }

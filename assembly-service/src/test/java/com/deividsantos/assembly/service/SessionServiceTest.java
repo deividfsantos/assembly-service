@@ -68,21 +68,21 @@ class SessionServiceTest {
 
     @Test
     void openSessionShouldWithAlreadyOpenedSesseionShouldThrowsSessionAlreadyOpenException() {
-        when(sessionRepository.findAllByAgendaId(123)).thenReturn(Arrays.asList(SessionStub.build(), SessionStub.build()));
+        when(sessionRepository.findAllByAgendaId(123)).thenReturn(Arrays.asList(SessionStub.buildEntity(), SessionStub.buildEntity()));
 
         assertThrows(SessionAlreadyOpenException.class, () -> sessionService.open(123, 10));
     }
 
     @Test
     void validateSessionOpenedWithFutureDueDateShouldReturnSuccess() {
-        when(sessionRepository.findAllByAgendaId(123)).thenReturn(Arrays.asList(SessionStub.build(), SessionStub.build()));
+        when(sessionRepository.findAllByAgendaId(123)).thenReturn(Arrays.asList(SessionStub.buildEntity(), SessionStub.buildEntity()));
 
         sessionService.validateSessionOpened(123);
     }
 
     @Test
     void validateSessionOpenedWithPastDueDateShouldThrowsSessionNotOpenException() {
-        when(sessionRepository.findAllByAgendaId(123)).thenReturn(Collections.singletonList(SessionStub.buildPastDueDate()));
+        when(sessionRepository.findAllByAgendaId(123)).thenReturn(Collections.singletonList(SessionStub.buildPastDueDateEntity()));
 
         assertThrows(SessionNotOpenException.class, () -> sessionService.validateSessionOpened(123));
     }
@@ -90,7 +90,7 @@ class SessionServiceTest {
     @Test
     void findAllExpiredSessionsShouldReturnExpiredSessions() {
         when(sessionRepository.findAllByStatus(SessionStatus.OPEN))
-                .thenReturn(Arrays.asList(SessionStub.buildPastDueDate(), SessionStub.build()));
+                .thenReturn(Arrays.asList(SessionStub.buildPastDueDateEntity(), SessionStub.buildEntity()));
 
         final List<Session> allExpiredSessions = sessionService.findAllExpiredSessions();
 
@@ -102,7 +102,7 @@ class SessionServiceTest {
 
     @Test
     void closeSessionShouldChangeEntityToClosed() {
-        final SessionEntity sessionEntity = SessionStub.build();
+        final SessionEntity sessionEntity = SessionStub.buildEntity();
         when(sessionRepository.findById(123)).thenReturn(Optional.of(sessionEntity));
         sessionService.closeSession(123);
 
