@@ -11,7 +11,7 @@ public class SessionAlreadyOpenException extends HttpException {
 
     @Override
     public HttpStatus getStatus() {
-        return HttpStatus.NOT_FOUND;
+        return HttpStatus.BAD_REQUEST;
     }
 
     @Override
