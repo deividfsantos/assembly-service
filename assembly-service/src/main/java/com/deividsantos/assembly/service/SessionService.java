@@ -34,7 +34,6 @@ public class SessionService {
 
     public void open(Integer agendaId, Integer durationTimeMinutes) {
         validateSessionNotOpened(agendaId);
-
         final SessionEntity sessionEntity = SessionEntityMapper.map(agendaId, durationTimeMinutes);
         try {
             sessionRepository.save(sessionEntity);

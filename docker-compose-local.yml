@@ -11,16 +11,6 @@ services:
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
       MYSQL_ROOT_PASSWORD: root
-  assembly-service:
-    build: assembly-service
-    ports:
-      - 8080:8080
-    environment:
-      ASSEMBLY_DB_URL: assembly-db
-      ASSEMBLY_RABBIT_URL: assembly-rabbitmq
-    depends_on:
-      - assembly-db
-      - assembly-rabbitmq
   assembly-rabbitmq:
     image: rabbitmq:3-management
     environment:
