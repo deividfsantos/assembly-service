@@ -7,10 +7,10 @@ import javax.validation.constraints.NotNull;
 
 public class AssociatedInput {
     @ApiModelProperty(value = "CPF of the associated.")
-    @NotBlank(message = "Agenda description is mandatory.")
+    @NotBlank(message = "Associated CPF is mandatory.")
     private String cpf;
     @ApiModelProperty(value = "Id of the associated.")
-    @NotNull(message = "Agenda description is mandatory.")
+    @NotNull(message = "Associated ID is mandatory.")
     private Integer id;
 
     public String getCpf() {

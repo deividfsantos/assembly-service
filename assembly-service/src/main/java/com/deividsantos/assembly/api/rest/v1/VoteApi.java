@@ -35,9 +35,9 @@ public class VoteApi {
                                                    @RequestBody @Valid VotingInput votingInput) {
         logger.info("Receiving vote on agenda with id {} from associated {}.", agendaId, votingInput.getAssociated().getId());
         final Associated associated = objectMapper.convertValue(votingInput.getAssociated(), Associated.class);
-        final Integer voteId = voteService.add(agendaId, associated, votingInput.getVote());
+        final Integer receipt = voteService.add(agendaId, associated, votingInput.getVote());
         logger.info("Vote on agenda with id {} from associated {} received.", agendaId, votingInput.getAssociated().getId());
-        return ResponseEntity.ok(new VoteOutput(voteId));
+        return ResponseEntity.ok(new VoteOutput(receipt));
     }
 
 }

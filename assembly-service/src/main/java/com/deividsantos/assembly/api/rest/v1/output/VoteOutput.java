@@ -4,20 +4,20 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class VoteOutput {
     @ApiModelProperty(value = "Vote id.")
-    private Integer id;
+    private Integer receipt;
 
     public VoteOutput() {
     }
 
-    public VoteOutput(Integer id) {
-        this.id = id;
+    public VoteOutput(Integer receipt) {
+        this.receipt = receipt;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getReceipt() {
+        return receipt;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setReceipt(Integer receipt) {
+        this.receipt = receipt;
     }
 }

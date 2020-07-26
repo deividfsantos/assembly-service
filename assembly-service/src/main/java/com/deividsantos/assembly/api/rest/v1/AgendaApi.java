@@ -48,7 +48,7 @@ public class AgendaApi {
 
     @GetMapping("/{id}/results")
     @ApiOperation(value = "Get the final or partial results of the specified agenda.")
-    public ResponseEntity<ResultsOutput> voteOnAgenda(@PathVariable Integer id) {
+    public ResponseEntity<ResultsOutput> getResults(@PathVariable Integer id) {
         logger.info("Couting votes on agenda with id {}.", id);
         final VotesCouting votesCouting = voteService.countVotes(id);
         final ResultsOutput resultsOutput = objectMapper.convertValue(votesCouting, ResultsOutput.class);

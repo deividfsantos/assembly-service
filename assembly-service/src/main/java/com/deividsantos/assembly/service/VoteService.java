@@ -32,9 +32,13 @@ public class VoteService {
 
     public Integer add(Integer agendaId, Associated associated, VoteOption vote) {
         agendaService.get(agendaId);
-        associatedService.validateAssociatedAbleToVote(associated.getCpf());
         sessionService.validateSessionOpened(agendaId);
+        associatedService.validateAssociatedAbleToVote(associated.getCpf());
         final VoteEntity voteEntity = VoteMapper.map(agendaId, associated, vote);
+        return save(agendaId, associated, voteEntity);
+    }
+
+    private Integer save(Integer agendaId, Associated associated, VoteEntity voteEntity) {
         try {
             return voteRepository.save(voteEntity).getId();
         } catch (DataIntegrityViolationException ex) {

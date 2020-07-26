@@ -2,10 +2,10 @@ package com.deividsantos.assembly.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class SessionClosedException extends HttpException {
+public class SessionNotOpenException extends HttpException {
     private static final String MESSAGE = "It is not possible to vote, no session open for this agenda.";
 
-    public SessionClosedException() {
+    public SessionNotOpenException() {
         super(MESSAGE);
     }
 
