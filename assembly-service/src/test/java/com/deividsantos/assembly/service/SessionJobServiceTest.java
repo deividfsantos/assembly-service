@@ -30,7 +30,7 @@ class SessionJobServiceTest {
     }
 
     @Test
-    void name() {
+    void sendResultsEventWhenSessionEnds() {
         ArgumentCaptor<AgendaResultEvent> captor = ArgumentCaptor.forClass(AgendaResultEvent.class);
         when(sessionService.findAllExpiredSessions()).thenReturn(Collections.singletonList(SessionStub.buildPastDueDate()));
         when(voteService.countVotes(123)).thenReturn(VoteStub.build());

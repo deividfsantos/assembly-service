@@ -32,6 +32,11 @@ class AssociatedServiceTest {
     }
 
     @Test
+    void validateAssociatedWithInvalidCpfShouldThrowsIncorrectCpfSizeException() {
+        assertThrows(IncorrectCpfFormatException.class, () -> associatedService.validateAssociatedAbleToVote("246632003"));
+    }
+
+    @Test
     void validateAssociatedWithValidCpfAndUnableToVoteShouldThrowsUnableToVoteException() {
         when(userInfoClient.validate("22246632005")).thenReturn(UserInfoStub.buildUnable());
         assertThrows(UnableToVoteException.class, () -> associatedService.validateAssociatedAbleToVote("22246632005"));

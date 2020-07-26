@@ -46,8 +46,8 @@ class VoteApiTest {
 
     @Test
     void voteWithValidParamsShouldReturnSuccess() throws Exception {
-        String voteRequest = new String(Files.readAllBytes(Paths.get("src/test/resources/voteRequest.json")));
-        String expectedVoteReceiptResponse = new String(Files.readAllBytes(Paths.get("src/test/resources/expectedVoteReceiptResponse.json")));
+        String voteRequest = new String(Files.readAllBytes(Paths.get("src/test/resources/json/voteRequest.json")));
+        String expectedVoteReceiptResponse = new String(Files.readAllBytes(Paths.get("src/test/resources/json/expectedVoteReceiptResponse.json")));
 
         when(voteService.add(eq(123), any(Associated.class), eq(VoteOption.Sim))).thenReturn(321);
 
@@ -61,8 +61,8 @@ class VoteApiTest {
 
     @Test
     void voteWithoutAssociatedIdShouldReturnBadRequest() throws Exception {
-        String voteWithoutAssociatedIdRequest = new String(Files.readAllBytes(Paths.get("src/test/resources/voteWithoutAssociatedIdRequest.json")));
-        String expectedResponseErrorWithoutMandatoryParams = new String(Files.readAllBytes(Paths.get("src/test/resources/expectedResponseErrorWithoutAssociatedId.json")));
+        String voteWithoutAssociatedIdRequest = new String(Files.readAllBytes(Paths.get("src/test/resources/json/voteWithoutAssociatedIdRequest.json")));
+        String expectedResponseErrorWithoutMandatoryParams = new String(Files.readAllBytes(Paths.get("src/test/resources/json/expectedResponseErrorWithoutAssociatedId.json")));
 
         when(voteService.add(eq(123), any(Associated.class), eq(VoteOption.Sim))).thenReturn(321);
 
@@ -76,8 +76,8 @@ class VoteApiTest {
 
     @Test
     void voteWithoutVoteOptionShouldReturnBadRequest() throws Exception {
-        String voteWithoutVoteOptionRequest = new String(Files.readAllBytes(Paths.get("src/test/resources/voteWithoutVoteOptionRequest.json")));
-        String expectedResponseErrorWithoutMandatoryParams = new String(Files.readAllBytes(Paths.get("src/test/resources/expectedResponseErrorWithoutVoteOption.json")));
+        String voteWithoutVoteOptionRequest = new String(Files.readAllBytes(Paths.get("src/test/resources/json/voteWithoutVoteOptionRequest.json")));
+        String expectedResponseErrorWithoutMandatoryParams = new String(Files.readAllBytes(Paths.get("src/test/resources/json/expectedResponseErrorWithoutVoteOption.json")));
 
         when(voteService.add(eq(123), any(Associated.class), eq(VoteOption.Sim))).thenReturn(321);
 

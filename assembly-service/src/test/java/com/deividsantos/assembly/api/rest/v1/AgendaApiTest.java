@@ -48,8 +48,8 @@ class AgendaApiTest {
 
     @Test
     void createAgendaShouldReturnSuccess() throws Exception {
-        String agendaCreationBody = new String(Files.readAllBytes(Paths.get("src/test/resources/agendaCreationRequest.json")));
-        String expectedAgendaCreationResponse = new String(Files.readAllBytes(Paths.get("src/test/resources/expectedAgendaCreationResponse.json")));
+        String agendaCreationBody = new String(Files.readAllBytes(Paths.get("src/test/resources/json/agendaCreationRequest.json")));
+        String expectedAgendaCreationResponse = new String(Files.readAllBytes(Paths.get("src/test/resources/json/expectedAgendaCreationResponse.json")));
 
         when(agendaService.create(any())).thenReturn(1);
 
@@ -63,8 +63,8 @@ class AgendaApiTest {
 
     @Test
     void createAgendaWithoutDescriptionShouldReturnBadRequest() throws Exception {
-        String agendaCreationBody = new String(Files.readAllBytes(Paths.get("src/test/resources/agendaCreationBodyWithoutDescriptionRequest.json")));
-        String expectedResponseErrorWithoutMandatoryParams = new String(Files.readAllBytes(Paths.get("src/test/resources/expectedResponseErrorWithoutAgendaDescription.json")));
+        String agendaCreationBody = new String(Files.readAllBytes(Paths.get("src/test/resources/json/agendaCreationBodyWithoutDescriptionRequest.json")));
+        String expectedResponseErrorWithoutMandatoryParams = new String(Files.readAllBytes(Paths.get("src/test/resources/json/expectedResponseErrorWithoutAgendaDescription.json")));
 
         mockMvc.perform(post("/v1/agenda")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -76,7 +76,7 @@ class AgendaApiTest {
 
     @Test
     void getAgendaResults() throws Exception {
-        String expectedAgendaResultsResponse = new String(Files.readAllBytes(Paths.get("src/test/resources/expectedAgendaResultsResponse.json")));
+        String expectedAgendaResultsResponse = new String(Files.readAllBytes(Paths.get("src/test/resources/json/expectedAgendaResultsResponse.json")));
 
         when(voteService.countVotes(123)).thenReturn(VoteStub.build());
 
