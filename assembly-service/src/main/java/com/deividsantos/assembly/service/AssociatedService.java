@@ -20,11 +20,18 @@ public class AssociatedService {
     }
 
     public void validateAssociatedAbleToVote(String cpf) {
+        validateCpf(cpf);
+        validateVotePermission(cpf);
+    }
+
+    private void validateCpf(String cpf) {
         if (!DocumentUtil.isValidCpf(cpf)) {
             logger.error("CPF {} is incorrect.", cpf);
             throw new IncorrectCpfFormatException();
         }
+    }
 
+    private void validateVotePermission(String cpf) {
         final VotePermission status = userInfoClient.validate(cpf).getStatus();
         if (status.equals(VotePermission.UNABLE_TO_VOTE)) {
             logger.error("The associated with cpf {} is unable to vote.", cpf);

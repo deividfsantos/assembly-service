@@ -20,7 +20,10 @@ public class VoteService {
     private final AssociatedService associatedService;
     private final AgendaService agendaService;
 
-    public VoteService(VoteRepository voteRepository, SessionService sessionService, AssociatedService associatedService, AgendaService agendaService) {
+    public VoteService(VoteRepository voteRepository,
+                       SessionService sessionService,
+                       AssociatedService associatedService,
+                       AgendaService agendaService) {
         this.voteRepository = voteRepository;
         this.sessionService = sessionService;
         this.associatedService = associatedService;
@@ -28,6 +31,7 @@ public class VoteService {
     }
 
     public Integer add(Integer agendaId, Associated associated, VoteOption vote) {
+        agendaService.get(agendaId);
         associatedService.validateAssociatedAbleToVote(associated.getCpf());
         sessionService.validateSessionOpened(agendaId);
         final VoteEntity voteEntity = VoteMapper.map(agendaId, associated, vote);

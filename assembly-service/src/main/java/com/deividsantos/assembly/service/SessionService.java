@@ -23,7 +23,7 @@ import java.util.function.Supplier;
 
 @Service
 public class SessionService {
-    private static final Logger logger = LoggerFactory.getLogger(VoteService.class);
+    private static final Logger logger = LoggerFactory.getLogger(SessionService.class);
     private final SessionRepository sessionRepository;
     private final SessionResultsProducer sessionResultsProducer;
     private final VoteService voteService;
@@ -37,8 +37,9 @@ public class SessionService {
     }
 
     public void open(Integer agendaId, Integer durationTimeMinutes) {
+        final SessionEntity sessionEntity = SessionEntityMapper.map(agendaId, durationTimeMinutes);
         try {
-            sessionRepository.save(SessionEntityMapper.map(agendaId, durationTimeMinutes));
+            sessionRepository.save(sessionEntity);
         } catch (DataIntegrityViolationException e) {
             logger.error("Agenda with id {} not found for open session.", agendaId);
             throw new AgendaNotFoundException();
