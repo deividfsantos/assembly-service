@@ -1,6 +1,7 @@
 package com.deividsantos.assembly.api.rest.v1;
 
 import com.deividsantos.assembly.config.GlobalExceptionHandler;
+import com.deividsantos.assembly.exception.ErrorTranslator;
 import com.deividsantos.assembly.service.AgendaService;
 import com.deividsantos.assembly.service.VoteService;
 import com.deividsantos.assembly.stub.VoteStub;
@@ -41,7 +42,7 @@ class AgendaApiTest {
     @BeforeEach
     public void setup() {
         mockMvc = MockMvcBuilders.standaloneSetup(agendaApi)
-                .setControllerAdvice(new GlobalExceptionHandler())
+                .setControllerAdvice(new GlobalExceptionHandler(new ErrorTranslator()))
                 .build();
     }
 

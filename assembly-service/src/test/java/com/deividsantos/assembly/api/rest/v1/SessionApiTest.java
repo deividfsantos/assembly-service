@@ -1,6 +1,7 @@
 package com.deividsantos.assembly.api.rest.v1;
 
 import com.deividsantos.assembly.config.GlobalExceptionHandler;
+import com.deividsantos.assembly.exception.ErrorTranslator;
 import com.deividsantos.assembly.service.SessionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +27,7 @@ class SessionApiTest {
     @BeforeEach
     public void setup() {
         mockMvc = MockMvcBuilders.standaloneSetup(sessionApi)
-                .setControllerAdvice(new GlobalExceptionHandler())
+                .setControllerAdvice(new GlobalExceptionHandler(new ErrorTranslator()))
                 .build();
     }
 

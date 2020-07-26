@@ -1,6 +1,7 @@
 package com.deividsantos.assembly.api.rest.v1;
 
 import com.deividsantos.assembly.config.GlobalExceptionHandler;
+import com.deividsantos.assembly.exception.ErrorTranslator;
 import com.deividsantos.assembly.model.Associated;
 import com.deividsantos.assembly.service.VoteService;
 import com.deividsantos.assembly.type.VoteOption;
@@ -39,7 +40,7 @@ class VoteApiTest {
     @BeforeEach
     public void setup() {
         mockMvc = MockMvcBuilders.standaloneSetup(voteApi)
-                .setControllerAdvice(new GlobalExceptionHandler())
+                .setControllerAdvice(new GlobalExceptionHandler(new ErrorTranslator()))
                 .build();
     }
 
