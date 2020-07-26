@@ -29,10 +29,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Error> handleException(Throwable throwable) {
         if (throwable instanceof HttpException) {
             HttpException e = (HttpException) throwable;
-            final Error translate = errorTranslator.translate(e.getError());
+            final Error errorTranslated = errorTranslator.translate(e.getError());
             return ResponseEntity
                     .status(e.getStatus())
-                    .body(translate);
+                    .body(errorTranslated);
         }
         return getInternalErrorResponse(throwable);
     }

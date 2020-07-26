@@ -5,6 +5,7 @@ import org.springframework.context.MessageSourceAware;
 import org.springframework.stereotype.Component;
 
 import java.util.Locale;
+import java.util.Optional;
 
 @Component
 public class ErrorTranslator implements MessageSourceAware {
@@ -12,12 +13,9 @@ public class ErrorTranslator implements MessageSourceAware {
     private MessageSource messageSource;
 
     public Error translate(Error error) {
-        if (error == null) {
-            return null;
-        }
-        final String message = get(error.getMessage());
-        final String code = get(error.getCode());
-        return new Error(message, code);
+        return Optional.ofNullable(error)
+                .map(errorNotNull -> new Error(get(errorNotNull.getMessage()), get(errorNotNull.getCode())))
+                .orElse(null);
     }
 
     private String get(String key, Object... args) {

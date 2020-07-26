@@ -45,7 +45,7 @@ or direct by your IDE
 ```
 
 ### Decisions
-
+The choice of technologies was made because they are already stable and tested in the market, thus obtaining more security, they are also technologies that have a large community, which can be useful in solving possible problems.
 
 ### Used technologies
 - **Java 11**: Java is a consolidated language and is widely used in the market, for this reason the use of it. Together with Spring boot it is easy and simple to create API's rest.
