@@ -1,5 +1,6 @@
 package com.deividsantos.assembly.service;
 
+import com.deividsantos.assembly.exception.AgendaNotFoundException;
 import com.deividsantos.assembly.model.Agenda;
 import com.deividsantos.assembly.repository.AgendaRepository;
 import com.deividsantos.assembly.repository.entity.AgendaEntity;
@@ -21,5 +22,11 @@ public class AgendaService {
         final AgendaEntity agendaEntity = objectMapper.convertValue(agenda, AgendaEntity.class);
         return agendaRepository.save(agendaEntity)
                 .getId();
+    }
+
+    public Agenda get(Integer id) {
+        return agendaRepository.findById(id)
+                .map(agendaEntity -> objectMapper.convertValue(agendaEntity, Agenda.class))
+                .orElseThrow(AgendaNotFoundException::new);
     }
 }

@@ -18,11 +18,13 @@ public class VoteService {
     private final VoteRepository voteRepository;
     private final SessionService sessionService;
     private final AssociatedService associatedService;
+    private final AgendaService agendaService;
 
-    public VoteService(VoteRepository voteRepository, SessionService sessionService, AssociatedService associatedService) {
+    public VoteService(VoteRepository voteRepository, SessionService sessionService, AssociatedService associatedService, AgendaService agendaService) {
         this.voteRepository = voteRepository;
         this.sessionService = sessionService;
         this.associatedService = associatedService;
+        this.agendaService = agendaService;
     }
 
     public Integer add(Integer agendaId, Associated associated, VoteOption vote) {
@@ -38,12 +40,11 @@ public class VoteService {
     }
 
     public VotesCouting countVotes(Integer agendaId) {
+        agendaService.get(agendaId);
         final Integer totalVotes = voteRepository.countByAgendaId(agendaId);
         final Integer positiveVotes = voteRepository.countByAgendaIdAndVote(agendaId, VoteOption.Sim);
-        return VotesCouting.aVotesCouting()
-                .withTotalVotes(totalVotes)
-                .withPositiveVotes(positiveVotes)
-                .withNegativeVotes(totalVotes - positiveVotes)
-                .build();
+        final Integer negativeVotes = totalVotes - positiveVotes;
+        return VoteMapper.mapResults(totalVotes, positiveVotes, negativeVotes);
     }
+
 }

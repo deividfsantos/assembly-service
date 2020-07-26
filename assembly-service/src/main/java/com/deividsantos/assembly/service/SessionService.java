@@ -1,7 +1,9 @@
 package com.deividsantos.assembly.service;
 
+import com.deividsantos.assembly.exception.AgendaNotFoundException;
 import com.deividsantos.assembly.exception.SessionClosedException;
 import com.deividsantos.assembly.mapper.ResultsEventMapper;
+import com.deividsantos.assembly.mapper.SessionEntityMapper;
 import com.deividsantos.assembly.model.VotesCouting;
 import com.deividsantos.assembly.producer.SessionResultsProducer;
 import com.deividsantos.assembly.producer.event.AgendaResultEvent;
@@ -11,6 +13,7 @@ import com.deividsantos.assembly.type.SessionStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +24,6 @@ import java.util.function.Supplier;
 @Service
 public class SessionService {
     private static final Logger logger = LoggerFactory.getLogger(VoteService.class);
-
     private final SessionRepository sessionRepository;
     private final SessionResultsProducer sessionResultsProducer;
     private final VoteService voteService;
@@ -35,28 +37,25 @@ public class SessionService {
     }
 
     public void open(Integer agendaId, Integer durationTimeMinutes) {
-        sessionRepository.save(buildSessionEntity(agendaId, durationTimeMinutes));
-    }
-
-    private SessionEntity buildSessionEntity(Integer agendaId, Integer durationTimeMinutes) {
-        return SessionEntity.aSessionEntity()
-                .withAgendaId(agendaId)
-                .withDueDate(LocalDateTime.now().plusMinutes(durationTimeMinutes))
-                .withSessionStatus(SessionStatus.OPEN)
-                .build();
+        try {
+            sessionRepository.save(SessionEntityMapper.map(agendaId, durationTimeMinutes));
+        } catch (DataIntegrityViolationException e) {
+            logger.error("Agenda with id {} not found for open session.", agendaId);
+            throw new AgendaNotFoundException();
+        }
     }
 
     public void validateSessionOpened(Integer agendaId) {
         sessionRepository.findAllByAgendaId(agendaId)
                 .stream()
                 .map(SessionEntity::getDueDate)
-                .filter(dueDate -> LocalDateTime.now().isBefore(dueDate))
+                .filter(this::isClosedForVote)
                 .findFirst()
                 .orElseThrow(getSessionClosedException(agendaId));
     }
 
     private Supplier<SessionClosedException> getSessionClosedException(Integer agendaId) {
-        logger.error("Agenda with id {} is closed.", agendaId);
+        logger.error("Agenda with id {} is not open.", agendaId);
         return SessionClosedException::new;
     }
 
@@ -66,7 +65,7 @@ public class SessionService {
         logger.info("Sending session results event.");
         sessionRepository.findAllByStatus(SessionStatus.OPEN)
                 .stream()
-                .filter(openSession -> !LocalDateTime.now().isBefore(openSession.getDueDate()))
+                .filter(openSession -> !isClosedForVote(openSession.getDueDate()))
                 .map(this::countVotesAndChangeSessionStatus)
                 .forEach(sessionResultsProducer::produceEvent);
     }
@@ -75,5 +74,9 @@ public class SessionService {
         final VotesCouting votesCouting = voteService.countVotes(openSession.getAgendaId());
         openSession.setStatus(SessionStatus.CLOSED);
         return ResultsEventMapper.map(openSession.getAgendaId(), votesCouting);
+    }
+
+    private boolean isClosedForVote(LocalDateTime dueDate) {
+        return LocalDateTime.now().isBefore(dueDate);
     }
 }
